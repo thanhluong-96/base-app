@@ -5,15 +5,15 @@ const client = createClient();
 
 // Helper function to determine the correct domain for JWT verification
 function getUrlHost(request: NextRequest): string {
-  // First try to get the origin from the Origin header (most reliable for CORS requests)
-  const origin = request.headers.get("origin");
-  if (origin) {
-    try {
-      const url = new URL(origin);
-      return url.host;
-    } catch (error) {
-      console.warn("Invalid origin header:", origin, error);
-    }
+  // Prefer x-forwarded-host as it reflects the deployed domain in proxied environments
+  const forwardedHost = request.headers.get("x-forwarded-host");
+  if (forwardedHost) {
+    return forwardedHost;
+  }
+
+  // Next.js exposes the actual request URL via nextUrl
+  if (request.nextUrl?.host) {
+    return request.nextUrl.host;
   }
 
   // Fallback to Host header
@@ -22,18 +22,11 @@ function getUrlHost(request: NextRequest): string {
     return host;
   }
 
-  // Final fallback to environment variables (your original logic)
-  let urlValue: string;
-  if (process.env.VERCEL_ENV === "production") {
-    urlValue = process.env.NEXT_PUBLIC_URL!;
-  } else if (process.env.VERCEL_URL) {
-    urlValue = `https://${process.env.VERCEL_URL}`;
-  } else {
-    urlValue = "http://localhost:3000";
-  }
+  // Final fallback to environment variables (original logic)
+  const urlValue = process.env.NEXT_PUBLIC_URL
+    || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 
-  const url = new URL(urlValue);
-  return url.host;
+  return new URL(urlValue).host;
 }
 
 export async function GET(request: NextRequest) {
