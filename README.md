@@ -157,3 +157,56 @@ For official Base developer resources, please visit:
 - [https://docs.base.org](https://docs.base.org)  
 
 ---
+### 1. Deploy to Vercel
+
+```bash
+vercel --prod
+```
+
+You should have a URL deployed to a domain similar to: `https://your-vercel-project-name.vercel.app/`
+
+### 2. Update environment variables
+
+Add your production URL to your local `.env` file:
+
+```bash
+NEXT_PUBLIC_PROJECT_NAME="Your App Name"
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=<Replace-WITH-YOUR-CDP-API-KEY>
+NEXT_PUBLIC_URL=https://your-vercel-project-name.vercel.app/
+```
+
+### 3. Upload environment variables to Vercel
+
+Add environment variables to your production environment:
+
+```bash
+vercel env add NEXT_PUBLIC_PROJECT_NAME production
+vercel env add NEXT_PUBLIC_ONCHAINKIT_API_KEY production
+vercel env add NEXT_PUBLIC_URL production
+### 1. Deploy to Vercel
+
+```bash
+vercel --prod
+```
+
+You should have a URL deployed to a domain similar to: `https://your-vercel-project-name.vercel.app/`
+
+### 2. Update environment variables
+
+Add your production URL to your local `.env` file:
+
+```bash
+NEXT_PUBLIC_PROJECT_NAME="Your App Name"
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=<Replace-WITH-YOUR-CDP-API-KEY>
+NEXT_PUBLIC_URL=https://your-vercel-project-name.vercel.app/
+```
+
+### 3. Upload environment variables to Vercel
+
+Add environment variables to your production environment:
+
+```bash
+vercel env add NEXT_PUBLIC_PROJECT_NAME production
+vercel env add NEXT_PUBLIC_ONCHAINKIT_API_KEY production
+vercel env add NEXT_PUBLIC_URL production
+
